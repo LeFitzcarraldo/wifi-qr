@@ -111,20 +111,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Generar QR con la librería
         try {
-            if (typeof QRCode === 'undefined') {
-                throw new Error("La librería QRCode no está definida.");
-            }
+    // ... (código anterior) ...
 
-            qrPlaceholder.style.display = 'none'; // Ocultar placeholder
+    // Crear nueva instancia de QRCode
+    if (typeof QRCode === 'undefined') {
+        throw new Error("La librería QRCode no está definida.");
+    }
 
-            qrCodeInstance = new QRCode(qrCodeDiv, {
-                text: wifiString,
-                width: 256,
-                height: 256,
-                colorDark: "#000000",
-                colorLight: "#ffffff",
-                correctLevel: QRCode.CorrectLevel.H
-            });
+    qrCodeInstance = new QRCode(qrCodeDiv, {
+        text: wifiString,
+        width: 256,
+        height: 256,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        // Cambia H por M aquí:
+        correctLevel: QRCode.CorrectLevel.M // Nivel de corrección MEDIO
+    });
 
             // Hacer visible el contenedor con transición
             qrCodeOutputContainer.classList.add('visible');
