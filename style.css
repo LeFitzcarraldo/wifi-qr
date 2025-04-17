@@ -1,22 +1,22 @@
-/* --- Neon Dark Theme --- */
+/* --- Elegant Dark Theme (Inspired by image_9f069e.png) --- */
 :root {
-    /* Colores Neón (Ejemplo: Verde Neón) */
-    --neon-primary: #39ff14;
-    --neon-primary-dark: #28b40f;
-    --neon-secondary: #00ccff; /* Cyan */
-    --neon-error: #ff1b1b; /* Rojo Neón */
-
-    /* Tema Oscuro */
-    --bg-main: #121212;         /* Fondo muy oscuro */
-    --bg-card: #1e1e1e;        /* Fondo de la tarjeta */
-    --bg-input: #2a2a2a;       /* Fondo de inputs */
-    --text-primary: #e0e0e0;    /* Texto principal */
-    --text-secondary: #888888;   /* Texto secundario/labels */
-    --border-color: #3a3a3a;
-    --border-focus: var(--neon-primary);
-    --button-text: #000000; /* Texto oscuro para botones neón */
+    /* Colores */
+    --bg-main: #212529;         /* Fondo principal oscuro */
+    --bg-card: #343a40;        /* Fondo de la tarjeta/contenedor */
+    --bg-input: #495057;       /* Fondo de inputs */
+    --bg-input-focus: #5a6168; /* Fondo input con foco */
+    --text-primary: #f8f9fa;    /* Texto principal (casi blanco) */
+    --text-secondary: #adb5bd;   /* Texto secundario/labels */
+    --text-placeholder: #6c757d; /* Color del placeholder */
+    --accent-primary: #3b82f6;  /* Azul de acento */
+    --accent-secondary: #60a5fa; /* Azul más claro (hover) */
+    --border-color: #495057;     /* Borde sutil (mismo que input bg) */
+    --border-focus: var(--accent-primary);
+    --button-text: #ffffff;      /* Texto blanco para botones */
+    --error-color: #dc3545;       /* Rojo para errores */
+    --error-bg: rgba(220, 53, 69, 0.1);
     --qr-bg: #ffffff; /* Fondo blanco para el QR */
-    --shadow-color: rgba(57, 255, 20, 0.3); /* Sombra basada en neon-primary */
+    --shadow-color: rgba(0, 0, 0, 0.2); /* Sombra suave */
 }
 
 *, *::before, *::after {
@@ -26,10 +26,10 @@
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; /* Fuente moderna */
     background-color: var(--bg-main);
     color: var(--text-primary);
-    padding: 20px;
+    padding: 30px 20px; /* Más padding vertical */
     display: flex;
     justify-content: center;
     align-items: flex-start;
@@ -39,176 +39,158 @@ body {
 
 .container {
     background-color: var(--bg-card);
-    padding: 30px 35px;
-    border-radius: 15px;
-    box-shadow: 0 0 25px rgba(0, 0, 0, 0.4), 0 0 15px var(--shadow-color); /* Sombra oscura + neón */
+    padding: 35px 40px; /* Más padding */
+    border-radius: 12px; /* Bordes más redondeados */
+    box-shadow: 0 8px 25px var(--shadow-color);
     width: 100%;
-    max-width: 500px;
+    max-width: 550px; /* Un poco más ancho */
     text-align: center;
     border: 1px solid var(--border-color);
 }
 
+/* Título y Descripción */
 h1 {
     color: var(--text-primary);
-    margin-bottom: 25px;
-    font-size: 1.8em;
+    margin-bottom: 15px; /* Menos espacio */
+    font-size: 1.7em; /* Ligeramente más pequeño */
     font-weight: 600;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 12px;
 }
 h1 .bi {
-    color: var(--neon-primary);
-    font-size: 1.2em;
+    color: var(--accent-primary); /* Icono azul */
+    font-size: 1.3em;
+    position: relative;
+    top: -1px; /* Ajuste vertical fino */
 }
+.description {
+    color: var(--text-secondary);
+    font-size: 0.95em;
+    max-width: 90%; /* Evitar que sea muy ancho */
+    margin: 0 auto 30px auto; /* Centrado y con espacio abajo */
+    line-height: 1.7;
+}
+
 
 /* --- Formularios --- */
 .form-group {
-    margin-bottom: 25px;
-    position: relative; /* Para labels flotantes y iconos */
-}
-
-/* Input group para iconos */
-.input-group {
+    margin-bottom: 20px;
+    text-align: left;
     position: relative;
 }
-.input-group .input-icon {
-    position: absolute;
-    left: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--text-secondary);
-    pointer-events: none; /* Para poder hacer clic en el input */
-    font-size: 1.1em;
-    transition: color 0.2s ease;
-}
-.input-group input:focus + label + .input-icon, /* Ajusta si el orden cambia */
-.input-group select:focus + label + .input-icon {
-    color: var(--neon-primary);
-}
 
+/* Labels encima del input */
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text-secondary);
+    font-weight: 500;
+    font-size: 0.9em;
+    display: inline-flex; /* Para alinear con icono */
+    align-items: center;
+    gap: 6px;
+}
+label .bi {
+    font-size: 1.1em;
+    color: var(--text-secondary); /* Icono del label */
+    position: relative;
+    top: -1px;
+}
 
 /* Estilo de Inputs y Select */
 input[type="text"],
 input[type="password"],
 select {
     width: 100%;
-    padding: 15px 15px 15px 50px; /* Padding izquierdo para icono */
+    padding: 12px 15px; /* Padding estándar */
     border: 1px solid var(--border-color);
     border-radius: 8px;
     background-color: var(--bg-input);
     color: var(--text-primary);
     font-size: 1em;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
-    appearance: none; /* Quitar apariencia nativa */
+    transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+    appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
 }
-
-/* Labels Flotantes (simplificado) */
-.input-group label {
-    position: absolute;
-    left: 50px; /* Alinear con input text */
-    top: 15px;
-    color: var(--text-secondary);
-    pointer-events: none;
-    transition: all 0.2s ease;
-    background-color: var(--bg-input); /* Para cubrir el borde */
-    padding: 0 5px;
-    font-size: 1em;
-}
-
-/* Estado de label cuando input tiene foco o valor */
-.input-group input:focus + label,
-.input-group input:not(:placeholder-shown) + label, /* Si tiene valor */
-.input-group select:focus + label, /* Aplica a select también */
-.input-group select:valid + label { /* Para select con valor seleccionado */
-    top: -10px; /* Mover arriba */
-    left: 45px;
-    font-size: 0.8em;
-    color: var(--neon-primary);
-}
-.input-group select + label.label-select { /* Label específico para select */
-    left: 50px;
-    top: 15px;
-    background-color: var(--bg-input);
-    padding: 0 5px;
-}
-.input-group select:focus + label.label-select,
-.input-group select:valid + label.label-select {
-    top: -10px;
-    left: 45px;
-    font-size: 0.8em;
-    color: var(--neon-primary);
-}
-
-/* Flecha para Select */
-select {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23888888' class='bi bi-chevron-down' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 15px center;
-    background-size: 16px 16px;
-}
-select:focus {
-     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%2339ff14' class='bi bi-chevron-down' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E"); /* Cambiar color flecha */
+/* Placeholder color */
+input::placeholder {
+    color: var(--text-placeholder);
+    opacity: 1; /* Asegurar visibilidad */
 }
 
 /* Foco de Inputs/Select */
 input:focus, select:focus {
+    background-color: var(--bg-input-focus);
     border-color: var(--border-focus);
     outline: none;
-    box-shadow: 0 0 0 3px rgba(57, 255, 20, 0.2); /* Sombra de foco neón */
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2); /* Sombra de foco azul */
 }
 
-/* Contraseña Toggle */
-.password-group { position: relative; }
+/* Wrapper para Select (para la flecha) */
+.select-wrapper { position: relative; }
+.select-wrapper::after { /* Flecha custom */
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 6px solid var(--text-secondary); /* Color flecha */
+    transform: translateY(-50%);
+    pointer-events: none;
+    transition: border-color 0.2s ease;
+}
+.select-wrapper select:focus::after { /* No funciona directamente en pseudo */
+    /* La flecha no cambia de color fácilmente sin SVG */
+}
+
+
+/* Wrapper Contraseña y Toggle */
+.password-wrapper { position: relative; }
 .password-toggle {
     position: absolute;
-    right: 15px;
+    right: 10px;
     top: 50%;
     transform: translateY(-50%);
     background: none;
     border: none;
     color: var(--text-secondary);
     cursor: pointer;
-    padding: 0;
+    padding: 5px; /* Área de clic */
     font-size: 1.2em;
+    line-height: 1;
 }
-.password-toggle:hover { color: var(--neon-primary); }
+.password-toggle:hover { color: var(--accent-secondary); }
 
 /* Checkbox */
 .checkbox-group {
     display: flex;
     align-items: center;
     gap: 10px;
-    justify-content: flex-start; /* Alinear a la izquierda */
-    background-color: var(--bg-input);
-    padding: 10px 15px;
-    border-radius: 8px;
-    border: 1px solid var(--border-color);
+    justify-content: flex-start;
+    background-color: transparent; /* Sin fondo extra */
+    padding: 5px 0;
+    border: none;
+    border-radius: 0;
 }
 .checkbox-group label {
-    margin-bottom: 0;
+    color: var(--text-secondary); /* Label del checkbox */
     font-weight: normal;
-    color: var(--text-secondary);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-}
-.checkbox-group label .bi {
-    font-size: 1.1em;
+    margin-bottom: 0;
 }
 input[type="checkbox"] {
-    width: 1.1em;
-    height: 1.1em;
-    accent-color: var(--neon-primary);
+    width: 1.1em; height: 1.1em;
+    accent-color: var(--accent-primary);
     cursor: pointer;
+    flex-shrink: 0; /* Evitar que se achique */
 }
 
-
-/* Botones */
+/* --- Botones --- */
 .button {
     border: none;
     padding: 12px 20px;
@@ -217,59 +199,61 @@ input[type="checkbox"] {
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s ease;
-    display: inline-flex; /* Para alinear icono y texto */
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
-    width: 100%; /* Ancho completo por defecto */
+    width: 100%;
     text-align: center;
+    line-height: 1.4; /* Mejorar alineación vertical */
 }
-.button .bi { /* Icono dentro del botón */
+.button .bi {
     font-size: 1.2em;
+    position: relative;
+    top: -1px;
 }
 
-/* Botón Generar (Principal) */
+/* Botón Generar (Principal - Azul) */
 .generate-button {
-    background-color: var(--neon-primary);
+    background-color: var(--accent-primary);
     color: var(--button-text);
-    box-shadow: 0 0 10px var(--shadow-color), 0 0 5px var(--shadow-color) inset;
     margin-top: 15px;
-    text-shadow: 0 0 5px rgba(0,0,0,0.5);
+    box-shadow: 0 4px 10px rgba(59, 130, 246, 0.2);
 }
 .generate-button:hover {
-    background-color: var(--neon-primary-dark);
-    box-shadow: 0 0 15px var(--shadow-color), 0 0 8px var(--shadow-color) inset;
+    background-color: var(--accent-secondary);
+    box-shadow: 0 6px 12px rgba(96, 165, 250, 0.3);
     transform: translateY(-2px);
 }
 .generate-button:active {
     transform: translateY(0px);
-    box-shadow: 0 0 5px var(--shadow-color), 0 0 3px var(--shadow-color) inset;
+    background-color: #2563eb; /* Azul más oscuro al presionar */
+    box-shadow: 0 2px 5px rgba(59, 130, 246, 0.2);
 }
 
 /* Contenedor de Salida (QR y Botones Exportar) */
 .output-container {
     margin-top: 30px;
-    padding: 25px;
-    background-color: var(--bg-input); /* Fondo ligeramente diferente */
-    border-radius: 10px;
-    border: 1px solid var(--border-color);
-    min-height: 200px;
+    padding: 0; /* Quitar padding general */
+    background-color: transparent; /* Sin fondo propio */
+    border: none; /* Sin borde propio */
+    min-height: auto; /* Altura auto */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 20px;
-    transition: opacity 0.5s ease;
+    gap: 25px; /* Más espacio */
+    transition: opacity 0.4s ease, max-height 0.4s ease;
     opacity: 0;
     visibility: hidden;
-    max-height: 0; /* Transición de altura */
-    overflow: hidden; /* Ocultar contenido durante transición */
+    max-height: 0;
+    overflow: hidden;
 }
 .output-container.visible {
     opacity: 1;
     visibility: visible;
-    max-height: 600px; /* Altura máxima suficiente */
-    padding: 25px; /* Restaurar padding */
+    max-height: 600px; /* Suficiente altura */
+    padding: 10px 0 0 0; /* Padding superior leve */
 }
 
 /* Área de visualización del QR */
@@ -277,90 +261,58 @@ input[type="checkbox"] {
     background-color: var(--qr-bg); /* Fondo blanco */
     padding: 15px;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.2);
-    min-height: 200px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    min-height: 200px; /* Mantener tamaño mínimo */
     min-width: 200px;
     display: flex;
     justify-content: center;
     align-items: center;
-    position: relative; /* Para placeholder */
+    position: relative;
 }
-#qrcode {
-    max-width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-#qrcode img,
-#qrcode canvas {
-    max-width: 100%;
-    height: auto;
-    display: block; /* Evita espacio extra debajo */
-}
+#qrcode { max-width: 100%; display: flex; justify-content: center; align-items: center; }
+#qrcode img, #qrcode canvas { max-width: 100%; height: auto; display: block; }
 #qrcode-placeholder {
-    color: var(--text-secondary);
-    font-size: 1em;
+    color: var(--text-placeholder);
+    font-size: 0.9em;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 10px;
 }
-#qrcode-placeholder .bi {
-    font-size: 3em;
-    color: #cccccc;
-}
+#qrcode-placeholder .bi { font-size: 3em; color: #e0e0e0; }
 
-/* Botones de Acción (Exportar) */
-.action-buttons {
-    display: flex;
-    flex-wrap: wrap; /* Para pantallas pequeñas */
-    gap: 15px;
-    justify-content: center;
-    width: 100%;
-    margin-top: 10px;
-}
+/* Botones de Acción (Exportar - Estilo Secundario) */
+.action-buttons { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; width: 100%; }
 .export-button {
-    background-color: var(--bg-card); /* Color secundario */
-    color: var(--neon-secondary); /* Texto neón cian */
-    border: 1px solid var(--neon-secondary);
-    flex-grow: 1; /* Ocupan espacio disponible */
-    min-width: 150px; /* Ancho mínimo */
+    background-color: var(--bg-input); /* Fondo gris oscuro */
+    color: var(--text-secondary); /* Texto gris claro */
+    border: 1px solid var(--border-color);
+    flex-grow: 1; min-width: 150px;
     padding: 10px 15px;
 }
 .export-button:hover {
-    background-color: var(--neon-secondary);
-    color: var(--button-text);
-    box-shadow: 0 0 10px rgba(0, 204, 255, 0.4);
-    border-color: var(--neon-secondary);
-    transform: translateY(-1px);
-}
-.export-button:active {
-    transform: translateY(0);
+    background-color: var(--bg-input-focus);
+    color: var(--accent-secondary); /* Color azul claro en texto/icono */
+    border-color: var(--accent-secondary);
 }
 .export-button:disabled {
     background-color: var(--bg-input);
     border-color: var(--border-color);
-    color: var(--text-secondary);
+    color: var(--text-placeholder); /* Más apagado */
     cursor: not-allowed;
-    opacity: 0.6;
-    box-shadow: none;
+    opacity: 0.5;
     transform: none;
 }
 
 /* Mensaje de Error */
 .error-message {
-    color: var(--neon-error);
-    background-color: rgba(255, 27, 27, 0.1);
-    border: 1px solid var(--neon-error);
-    padding: 10px 15px;
-    border-radius: 6px;
+    color: var(--error-color);
+    background-color: var(--error-bg);
+    border: 1px solid var(--error-color);
+    padding: 12px 15px; /* Más padding */
+    border-radius: 8px;
     font-size: 0.9em;
-    margin-top: 15px;
-    display: none; /* Oculto por defecto */
+    margin-top: 20px;
+    display: none;
     text-align: left;
-}
-
-/* Utilidades */
-.hidden {
-    display: none !important;
 }
