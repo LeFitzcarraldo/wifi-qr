@@ -1,0 +1,366 @@
+/* --- Neon Dark Theme --- */
+:root {
+    /* Colores Neón (Ejemplo: Verde Neón) */
+    --neon-primary: #39ff14;
+    --neon-primary-dark: #28b40f;
+    --neon-secondary: #00ccff; /* Cyan */
+    --neon-error: #ff1b1b; /* Rojo Neón */
+
+    /* Tema Oscuro */
+    --bg-main: #121212;         /* Fondo muy oscuro */
+    --bg-card: #1e1e1e;        /* Fondo de la tarjeta */
+    --bg-input: #2a2a2a;       /* Fondo de inputs */
+    --text-primary: #e0e0e0;    /* Texto principal */
+    --text-secondary: #888888;   /* Texto secundario/labels */
+    --border-color: #3a3a3a;
+    --border-focus: var(--neon-primary);
+    --button-text: #000000; /* Texto oscuro para botones neón */
+    --qr-bg: #ffffff; /* Fondo blanco para el QR */
+    --shadow-color: rgba(57, 255, 20, 0.3); /* Sombra basada en neon-primary */
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    line-height: 1.6;
+}
+
+.container {
+    background-color: var(--bg-card);
+    padding: 30px 35px;
+    border-radius: 15px;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.4), 0 0 15px var(--shadow-color); /* Sombra oscura + neón */
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+    border: 1px solid var(--border-color);
+}
+
+h1 {
+    color: var(--text-primary);
+    margin-bottom: 25px;
+    font-size: 1.8em;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+h1 .bi {
+    color: var(--neon-primary);
+    font-size: 1.2em;
+}
+
+/* --- Formularios --- */
+.form-group {
+    margin-bottom: 25px;
+    position: relative; /* Para labels flotantes y iconos */
+}
+
+/* Input group para iconos */
+.input-group {
+    position: relative;
+}
+.input-group .input-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-secondary);
+    pointer-events: none; /* Para poder hacer clic en el input */
+    font-size: 1.1em;
+    transition: color 0.2s ease;
+}
+.input-group input:focus + label + .input-icon, /* Ajusta si el orden cambia */
+.input-group select:focus + label + .input-icon {
+    color: var(--neon-primary);
+}
+
+
+/* Estilo de Inputs y Select */
+input[type="text"],
+input[type="password"],
+select {
+    width: 100%;
+    padding: 15px 15px 15px 50px; /* Padding izquierdo para icono */
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background-color: var(--bg-input);
+    color: var(--text-primary);
+    font-size: 1em;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    appearance: none; /* Quitar apariencia nativa */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+/* Labels Flotantes (simplificado) */
+.input-group label {
+    position: absolute;
+    left: 50px; /* Alinear con input text */
+    top: 15px;
+    color: var(--text-secondary);
+    pointer-events: none;
+    transition: all 0.2s ease;
+    background-color: var(--bg-input); /* Para cubrir el borde */
+    padding: 0 5px;
+    font-size: 1em;
+}
+
+/* Estado de label cuando input tiene foco o valor */
+.input-group input:focus + label,
+.input-group input:not(:placeholder-shown) + label, /* Si tiene valor */
+.input-group select:focus + label, /* Aplica a select también */
+.input-group select:valid + label { /* Para select con valor seleccionado */
+    top: -10px; /* Mover arriba */
+    left: 45px;
+    font-size: 0.8em;
+    color: var(--neon-primary);
+}
+.input-group select + label.label-select { /* Label específico para select */
+    left: 50px;
+    top: 15px;
+    background-color: var(--bg-input);
+    padding: 0 5px;
+}
+.input-group select:focus + label.label-select,
+.input-group select:valid + label.label-select {
+    top: -10px;
+    left: 45px;
+    font-size: 0.8em;
+    color: var(--neon-primary);
+}
+
+/* Flecha para Select */
+select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23888888' class='bi bi-chevron-down' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 16px 16px;
+}
+select:focus {
+     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%2339ff14' class='bi bi-chevron-down' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E"); /* Cambiar color flecha */
+}
+
+/* Foco de Inputs/Select */
+input:focus, select:focus {
+    border-color: var(--border-focus);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(57, 255, 20, 0.2); /* Sombra de foco neón */
+}
+
+/* Contraseña Toggle */
+.password-group { position: relative; }
+.password-toggle {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 0;
+    font-size: 1.2em;
+}
+.password-toggle:hover { color: var(--neon-primary); }
+
+/* Checkbox */
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: flex-start; /* Alinear a la izquierda */
+    background-color: var(--bg-input);
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+.checkbox-group label {
+    margin-bottom: 0;
+    font-weight: normal;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+.checkbox-group label .bi {
+    font-size: 1.1em;
+}
+input[type="checkbox"] {
+    width: 1.1em;
+    height: 1.1em;
+    accent-color: var(--neon-primary);
+    cursor: pointer;
+}
+
+
+/* Botones */
+.button {
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex; /* Para alinear icono y texto */
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%; /* Ancho completo por defecto */
+    text-align: center;
+}
+.button .bi { /* Icono dentro del botón */
+    font-size: 1.2em;
+}
+
+/* Botón Generar (Principal) */
+.generate-button {
+    background-color: var(--neon-primary);
+    color: var(--button-text);
+    box-shadow: 0 0 10px var(--shadow-color), 0 0 5px var(--shadow-color) inset;
+    margin-top: 15px;
+    text-shadow: 0 0 5px rgba(0,0,0,0.5);
+}
+.generate-button:hover {
+    background-color: var(--neon-primary-dark);
+    box-shadow: 0 0 15px var(--shadow-color), 0 0 8px var(--shadow-color) inset;
+    transform: translateY(-2px);
+}
+.generate-button:active {
+    transform: translateY(0px);
+    box-shadow: 0 0 5px var(--shadow-color), 0 0 3px var(--shadow-color) inset;
+}
+
+/* Contenedor de Salida (QR y Botones Exportar) */
+.output-container {
+    margin-top: 30px;
+    padding: 25px;
+    background-color: var(--bg-input); /* Fondo ligeramente diferente */
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    transition: opacity 0.5s ease;
+    opacity: 0;
+    visibility: hidden;
+    max-height: 0; /* Transición de altura */
+    overflow: hidden; /* Ocultar contenido durante transición */
+}
+.output-container.visible {
+    opacity: 1;
+    visibility: visible;
+    max-height: 600px; /* Altura máxima suficiente */
+    padding: 25px; /* Restaurar padding */
+}
+
+/* Área de visualización del QR */
+#qrcode-display {
+    background-color: var(--qr-bg); /* Fondo blanco */
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    min-height: 200px;
+    min-width: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative; /* Para placeholder */
+}
+#qrcode {
+    max-width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#qrcode img,
+#qrcode canvas {
+    max-width: 100%;
+    height: auto;
+    display: block; /* Evita espacio extra debajo */
+}
+#qrcode-placeholder {
+    color: var(--text-secondary);
+    font-size: 1em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+#qrcode-placeholder .bi {
+    font-size: 3em;
+    color: #cccccc;
+}
+
+/* Botones de Acción (Exportar) */
+.action-buttons {
+    display: flex;
+    flex-wrap: wrap; /* Para pantallas pequeñas */
+    gap: 15px;
+    justify-content: center;
+    width: 100%;
+    margin-top: 10px;
+}
+.export-button {
+    background-color: var(--bg-card); /* Color secundario */
+    color: var(--neon-secondary); /* Texto neón cian */
+    border: 1px solid var(--neon-secondary);
+    flex-grow: 1; /* Ocupan espacio disponible */
+    min-width: 150px; /* Ancho mínimo */
+    padding: 10px 15px;
+}
+.export-button:hover {
+    background-color: var(--neon-secondary);
+    color: var(--button-text);
+    box-shadow: 0 0 10px rgba(0, 204, 255, 0.4);
+    border-color: var(--neon-secondary);
+    transform: translateY(-1px);
+}
+.export-button:active {
+    transform: translateY(0);
+}
+.export-button:disabled {
+    background-color: var(--bg-input);
+    border-color: var(--border-color);
+    color: var(--text-secondary);
+    cursor: not-allowed;
+    opacity: 0.6;
+    box-shadow: none;
+    transform: none;
+}
+
+/* Mensaje de Error */
+.error-message {
+    color: var(--neon-error);
+    background-color: rgba(255, 27, 27, 0.1);
+    border: 1px solid var(--neon-error);
+    padding: 10px 15px;
+    border-radius: 6px;
+    font-size: 0.9em;
+    margin-top: 15px;
+    display: none; /* Oculto por defecto */
+    text-align: left;
+}
+
+/* Utilidades */
+.hidden {
+    display: none !important;
+}
