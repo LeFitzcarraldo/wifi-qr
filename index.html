@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador QR WiFi Neón</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1><i class="bi bi-wifi"></i> Generador QR WiFi Neón</h1>
+
+        <form id="wifi-form" novalidate>
+            <div class="form-group input-group">
+                <span class="input-icon"><i class="bi bi-router-fill"></i></span>
+                <input type="text" id="ssid" name="ssid" required placeholder="Nombre de Red (SSID)">
+                <label for="ssid">Nombre de Red (SSID)</label> </div>
+
+            <div class="form-group input-group password-group">
+                 <span class="input-icon"><i class="bi bi-key-fill"></i></span>
+                 <input type="password" id="password" name="password" placeholder="Contraseña">
+                 <label for="password">Contraseña</label> <button type="button" id="togglePassword" class="password-toggle" title="Mostrar/Ocultar Contraseña">
+                     <i class="bi bi-eye-fill"></i>
+                 </button>
+            </div>
+
+            <div class="form-group input-group">
+                 <span class="input-icon"><i class="bi bi-shield-lock-fill"></i></span>
+                 <select id="security" name="security">
+                     <option value="WPA" selected>WPA / WPA2</option>
+                     <option value="WEP">WEP</option>
+                     <option value="nopass">Sin Contraseña (Abierta)</option>
+                 </select>
+                 <label for="security" class="label-select">Tipo de Seguridad</label>
+             </div>
+
+            <div class="form-group checkbox-group">
+                <input type="checkbox" id="hidden" name="hidden">
+                <label for="hidden"><i class="bi bi-eye-slash-fill"></i> Red Oculta</label>
+            </div>
+
+            <button type="submit" class="button generate-button">
+                <i class="bi bi-qr-code"></i> Generar Código QR
+            </button>
+        </form>
+
+        <div class="error-message" id="error-message"></div>
+
+        <div id="qrcode-output" class="output-container">
+             <div id="qrcode-display">
+                <div id="qrcode-placeholder"><i class="bi bi-upc-scan"></i> Esperando datos...</div>
+                <div id="qrcode"></div> </div>
+             <div id="action-buttons" class="action-buttons">
+                <button id="download-png" class="button export-button" disabled>
+                    <i class="bi bi-image-fill"></i> Exportar PNG
+                </button>
+                <button id="download-pdf" class="button export-button" disabled>
+                     <i class="bi bi-file-earmark-pdf-fill"></i> Exportar PDF (A4)
+                </button>
+                <a id="hidden-download-link" style="display: none;"></a>
+            </div>
+        </div>
+    </div>
+
+    <script src="lib/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="script.js" defer></script>
+
+</body>
+</html>
