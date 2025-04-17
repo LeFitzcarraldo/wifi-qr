@@ -64,97 +64,102 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Core Functions ---
 
     function generateQrCode() {
-        // Limpiar estado anterior
-        hideError();
-        qrCodeDiv.innerHTML = ''; // Limpia canvas/img anterior
+    // Limpiar estado anterior
+    hideError();
+    qrCodeDiv.innerHTML = ''; // Limpia canvas/img anterior
+    qrPlaceholder.style.display = 'flex';
+    qrCodeOutputContainer.classList.remove('visible');
+    downloadPngButton.disabled = true;
+    downloadPdfButton.disabled = true;
+    currentQrDataUrl = null;
+    currentSSID = '';
+
+    // Obtener valores
+    const ssid = ssidInput.value.trim();
+    const password = passwordInput.value;
+    const security = securitySelect.value;
+    const isHidden = hiddenCheckbox.checked;
+
+    // Validación
+    if (!ssid) {
+        showError("El nombre de la red (SSID) es obligatorio.");
+        return;
+    }
+    if (security !== 'nopass' && !password) {
+        showError("Se requiere contraseña para seguridad WPA/WEP.");
+        return;
+    }
+
+    // Escapar caracteres especiales (Esta función parece estar bien)
+    const escape = (str) => str.replace(/\\/g, '\\\\').replace(/;/g, '\\;').replace(/,/g, '\\,').replace(/"/g, '\\"').replace(/:/g, '\\:');
+    const escapedSsid = escape(ssid);
+    const escapedPassword = security === 'nopass' ? '' : escape(password);
+
+    // --- CORRECCIÓN: Construir string WIFI con concatenación y terminación ;; ---
+    let wifiString = 'WIFI:'; // Iniciar string
+    wifiString += 'S:' + escapedSsid + ';';
+    wifiString += 'T:' + security + ';';
+    if (security !== 'nopass') {
+        wifiString += 'P:' + escapedPassword + ';';
+    }
+    if (isHidden) {
+        wifiString += 'H:true;';
+    }
+    wifiString += ';'; // Añadir los dos puntos y coma finales requeridos por el estándar
+
+    // --- IMPORTANTE: Verifica esta salida en la consola (F12) ---
+    console.log("WiFi String FINAL a codificar:", wifiString);
+    currentSSID = ssid; // Guardar SSID para exportación
+
+    // --- Generar QR con qrcode-generator ---
+    try {
+        if (typeof qrcode === 'undefined') {
+            throw new Error("La librería qrcode (qrcode-generator) no está definida.");
+        }
+        const errorCorrectionLevel = 'M'; // Mantenemos Nivel M
+        const typeNumber = 0; // Auto-detectar versión
+        const qr = qrcode(typeNumber, errorCorrectionLevel);
+
+        // Pasar el string CORRECTO a la librería
+        qr.addData(wifiString);
+        qr.make();
+
+        // --- Dibujar en Canvas (sin cambios en esta parte) ---
+        const qrCanvas = document.createElement('canvas');
+        const desiredSizePixels = 256;
+        const scale = 4;
+        const canvasSize = desiredSizePixels * scale;
+        renderQrToCanvas(qr, qrCanvas, canvasSize, scale); // Llama a la función de dibujo
+        qrPlaceholder.style.display = 'none';
+        qrCodeDiv.appendChild(qrCanvas);
+
+        // Guardar DataURL y habilitar botones
+        currentQrDataUrl = qrCanvas.toDataURL('image/png');
+        if (currentQrDataUrl) {
+            downloadPngButton.disabled = false;
+            downloadPdfButton.disabled = false;
+            qrCodeOutputContainer.classList.add('visible');
+            console.log("QR Code generated and DataURL stored.");
+        } else {
+            throw new Error("No se pudo generar el DataURL del canvas.");
+        }
+
+    } catch (error) {
+        console.error("Error generando QR:", error);
+        if (error.message.toLowerCase().includes("code length overflow")) {
+            showError(`Error: Los datos (SSID/Contraseña) son demasiado largos para el estándar QR. Intenta con datos más cortos.`);
+        } else {
+            showError(`Error al generar QR: ${error.message}`);
+        }
         qrPlaceholder.style.display = 'flex';
         qrCodeOutputContainer.classList.remove('visible');
-        downloadPngButton.disabled = true;
-        downloadPdfButton.disabled = true;
-        currentQrDataUrl = null;
-        currentSSID = '';
-
-        // Obtener valores
-        const ssid = ssidInput.value.trim();
-        const password = passwordInput.value;
-        const security = securitySelect.value;
-        const isHidden = hiddenCheckbox.checked;
-
-        // Validación
-        if (!ssid) {
-            showError("El nombre de la red (SSID) es obligatorio.");
-            return;
-        }
-        if (security !== 'nopass' && !password) {
-            showError("Se requiere contraseña para seguridad WPA/WEP.");
-            return;
-        }
-
-        // Escapar caracteres
-        const escape = (str) => str.replace(/\\/g, '\\\\').replace(/;/g, '\\;').replace(/,/g, '\\,').replace(/"/g, '\\"').replace(/:/g, '\\:');
-        const escapedSsid = escape(ssid);
-        const escapedPassword = security === 'nopass' ? '' : escape(password);
-
-        // Construir string WIFI
-        let wifiString = `WIFI:S:<span class="math-inline">\{escapedSsid\};T\:</span>{security};`;
-        if (security !== 'nopass') wifiString += `P:${escapedPassword};`;
-        if (isHidden) wifiString += `H:true;`;
-        wifiString += ';';
-
-        console.log("WiFi String:", wifiString);
-        currentSSID = ssid;
-
-        // --- Generar QR con qrcode-generator ---
-        try {
-            // Verificar si la librería está cargada
-            if (typeof qrcode === 'undefined') {
-                throw new Error("La librería qrcode (qrcode-generator) no está definida.");
-            }
-
-            // Nivel de corrección de errores (L, M, Q, H)
-            const errorCorrectionLevel = 'M';
-            // El tipo 0 significa que la librería elige la versión automáticamente
-            const typeNumber = 0;
-
-            // Crear el objeto QR
-            const qr = qrcode(typeNumber, errorCorrectionLevel);
-            qr.addData(wifiString);
-            qr.make();
-
-            // --- Dibujar en Canvas ---
-            const qrCanvas = document.createElement('canvas');
-            const desiredSizePixels = 256; // Tamaño deseado del QR en píxeles
-            const scale = 4; // Escala para dibujar (más grande = más nítido al escalar)
-            const canvasSize = desiredSizePixels * scale; // Tamaño real del canvas
-
-            renderQrToCanvas(qr, qrCanvas, canvasSize, scale); // Llama a la función de dibujo
-
-            qrPlaceholder.style.display = 'none';
-            qrCodeDiv.appendChild(qrCanvas); // Añade el canvas al div
-
-            // Guardar DataURL y habilitar botones
-            currentQrDataUrl = qrCanvas.toDataURL('image/png');
-            if (currentQrDataUrl) {
-                downloadPngButton.disabled = false;
-                downloadPdfButton.disabled = false;
-                qrCodeOutputContainer.classList.add('visible');
-                console.log("QR Code generated and DataURL stored.");
-            } else {
-                 throw new Error("No se pudo generar el DataURL del canvas.");
-            }
-
-        } catch (error) {
-            console.error("Error generando QR:", error);
-             // Manejar específicamente el error de longitud si la librería lo lanza
-             if (error.message.toLowerCase().includes("code length overflow")) {
-                  showError(`Error: Los datos (SSID/Contraseña) son demasiado largos para el estándar QR. Intenta con datos más cortos.`);
-             } else {
-                  showError(`Error al generar QR: ${error.message}`);
-             }
-            qrPlaceholder.style.display = 'flex';
-            qrCodeOutputContainer.classList.remove('visible');
-        }
     }
+}
+
+// --- NO OLVIDES TENER TAMBIÉN LAS OTRAS FUNCIONES ---
+// (renderQrToCanvas, generatePdf, showError, hideError, etc.)
+// Debes reemplazar *únicamente* la función generateQrCode en tu script.js actual.
+// Asegúrate de que el resto del script permanezca igual.
 
     // --- Función para dibujar el QR en un Canvas ---
     function renderQrToCanvas(qrModel, canvasElement, canvasSize, scaleFactor = 4) {
